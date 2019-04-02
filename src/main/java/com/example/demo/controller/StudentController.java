@@ -80,7 +80,7 @@ public class StudentController {
 
     /**
      * 根据id修改一条
-     * @param name
+     * @param studentRequestEntity
      * @param id
      * @return
      */
