@@ -1,8 +1,11 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.CommonResponseEntity;
+import com.example.demo.entity.PageResponse;
 import com.example.demo.entity.StudentEntity;
 import com.example.demo.entity.StudentRequestEntity;
 import com.example.demo.service.StudentService;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -88,5 +91,20 @@ public class StudentController {
     public StudentEntity saveOne(@RequestBody StudentRequestEntity studentRequestEntity, @PathVariable int id){
         String name = studentRequestEntity.getName();
         return studentService.save(name, id);
+    }
+
+    @RequestMapping(value = "/student/response", method = RequestMethod.GET)
+    public Page<StudentEntity> page(@RequestParam int page, @RequestParam int pageSize){
+        return studentService.pageRequest(page, pageSize);
+    }
+
+    @RequestMapping(value = "/student/responsePage", method = RequestMethod.GET)
+    public CommonResponseEntity<Page<StudentEntity>> responsePage(@RequestParam int page, @RequestParam int pageSize){
+        return CommonResponseEntity.success(studentService.pageRequest(page, pageSize));
+    }
+
+    @RequestMapping(value = "/student/responsePageResponse", method = RequestMethod.GET)
+    public CommonResponseEntity<PageResponse<StudentEntity>> responsePageResponse(@RequestParam int page, @RequestParam int pageSize){
+        return CommonResponseEntity.success(PageResponse.of(studentService.findAll(), pageSize, page));
     }
 }

@@ -4,6 +4,8 @@ import com.example.demo.entity.StudentEntity;
 import com.example.demo.entity.StudentRequestEntity;
 import com.example.demo.repository.StudentRepository;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,5 +50,10 @@ public class StudentService{
 
     public void delete(int id){
         studentRepository.deleteById(id);
+    }
+
+    public Page<StudentEntity> pageRequest(int page, int pageSize){
+        //findAll中的page是从0开始计数的
+        return studentRepository.findAll(PageRequest.of(page -1 , pageSize));
     }
 }
